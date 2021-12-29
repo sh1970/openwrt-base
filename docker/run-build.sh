@@ -1,5 +1,6 @@
 #!/bin/bash
 #set -x
+opt=$2
 export USERUID="$(id -u)"
 export USERGID="$(id -g)"
 DCKRIMAGE="mt7621-imagebuild:v19.07"
@@ -20,7 +21,7 @@ case "$1" in
     docker build $BARGS -t $DCKRIMAGE -f Dockerfile.build .
     ;;
   build-official)
-    docker run $ARGS $DCKRIMAGE build-official
+    docker run $ARGS $DCKRIMAGE build-official $opt
     echo "Build started - now watching $DCKRNAME"
     echo "Press CTRL+C to stop watching!"
     echo "To stop build completely - '$0 stop'"
