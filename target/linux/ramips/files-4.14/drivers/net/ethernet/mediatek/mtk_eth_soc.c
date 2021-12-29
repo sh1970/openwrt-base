@@ -1513,6 +1513,9 @@ static void fe_reset_pending(struct fe_priv *priv)
 		dev_close(dev);
 	}
 	rtnl_unlock();
+
+	if (priv->soc->reset_ports)
+		priv->soc->reset_ports(priv);
 }
 
 static const struct fe_work_t fe_work[] = {
@@ -1635,7 +1638,7 @@ static int fe_probe(struct platform_device *pdev)
 		priv->tx_ring.tx_ring_size *= 4;
 		priv->rx_ring.rx_ring_size *= 4;
 	}
-	netif_napi_add(netdev, &priv->rx_napi, fe_poll, napi_weight);
+	netif_threaded_napi_add(netdev, &priv->rx_napi, fe_poll, napi_weight);
 	fe_set_ethtool_ops(netdev);
 
 	err = register_netdev(netdev);
