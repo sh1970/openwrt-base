@@ -395,6 +395,7 @@ define Device/netgear_r6350
   IMAGE/kernel.bin := append-kernel
   IMAGE/rootfs.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
   DEVICE_TITLE := Netgear R6350
+  DEVICE_MODEL := netgear_r6350
   DEVICE_PACKAGES := \
 	kmod-mt7603-compat kmod-mt7615e kmod-usb3 kmod-usb-ledtrig-usbport wpad-basic
 endef
