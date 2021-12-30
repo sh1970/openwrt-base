@@ -45,6 +45,10 @@ case "$1" in
   stop)
     docker stop -t 60 $DCKRNAME
     ;;
+  shell)
+    docker run --rm --name $DCKRNAME -it --entrypoint /bin/bash \
+    --cap-add NET_ADMIN -v $PWD/openwrt:/home/buser/openwrt $DCKRIMAGE
+    ;;
   *)
     echo "Usage: $0 {build-image|build-official|rebuild|clean-min|clean-full|stop}" >&2
     echo "build-image: Build $DCKRIMAGE to build openwrt firmware images" >&2
@@ -53,6 +57,7 @@ case "$1" in
     echo "clean-min: Cleanup minimum build - keep config" >&2
     echo "clean-full: Cleanup full build - clean slate" >&2
     echo "watch-build: Watch the Openwrt build on container" >&2
+    echo "shell: Enter bash shell in docker container" >&2
     exit 1
     ;;
 esac
