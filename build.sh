@@ -10,9 +10,9 @@ echo "Install all packages from feeds..."
 ./scripts/feeds install -a && ./scripts/feeds install -a
 
 echo "Copy Openwrt official config..."
-release=$(grep -m1 '$(VERSION_NUMBER),' include/version.mk | awk -F, '{ print $3 }' | sed 's/[)]//g')
+release=$(grep -m1 '$(VERSION_REPO),' include/version.mk | awk -F, '{ print $3 }' | sed 's/[)]//g' | tr [:upper:] [:lower:])
 
-wget https://downloads.openwrt.org/releases/$release/targets/ramips/mt7621/config.buildinfo -O .config
+wget $release/targets/ramips/mt7621/config.buildinfo -O .config
 
 echo "Set to use default config"
 make defconfig
