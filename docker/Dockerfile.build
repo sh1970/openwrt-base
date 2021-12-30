@@ -7,7 +7,7 @@ ENV USERID=$USERUID \
     GROUPID=$USERGID
 
 RUN apt-get update && \
-    apt-get install -y time git-core subversion build-essential screen \
+    apt-get install -y time git-core subversion build-essential screen quilt \
     g++ bash make libssl-dev patch libncurses5 libncurses5-dev zlib1g-dev gawk \
     flex gettext wget unzip xz-utils python python-distutils-extra python3 python3-distutils-extra rsync && \
     apt-get clean && \
@@ -17,8 +17,9 @@ RUN apt-get update && \
 USER buser
 WORKDIR /home/buser
 
-# set dummy git config
+# set dummy git config and quilt settings
 RUN git config --global user.name "buser" && git config --global user.email "buser@mt7621.com"
+COPY quiltrc /home/buser/.quiltrc
 
 # Switch to openwrt folder
 WORKDIR /home/buser/openwrt
