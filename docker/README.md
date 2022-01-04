@@ -13,6 +13,22 @@ NOTE: Build on docker engine is only guarenteed to work on a Linux platform, usi
 **And have a USB ttl serial lead to connect to the uart ports!
 This is really important, as only recover is to hold reset and install factory image again (test.bin)**
 
+### Build the openwrt image - image to flash to router
+
+You need to build the docker image first:
+
+    ./run-build.sh build-image
+
+Then start the openwrt build code process (Openwrt official release config):
+
+    ./run-build.sh build-official
+
+This will take a long time depending on your host compiling the code!
+
+Once finished, the image will be available in top level of the openwrt folder in - bin/targets/ramips/mt7621/
+
+### DHCP server and TFTP server - upload to router via u-boot
+
 You need to build the docker image first:
 
     ./tftpserver.sh build
@@ -55,17 +71,3 @@ Then continue the exploit guide.
 If unsure of compatibilty, write the **openwrt-initramfs image** instead of the sysupgrade image. As this does not write anything to the SPI NOR chip.
 
 Any issues, leave an issue on this git repo!
-
-### Build the openwrt image - image to flash to router
-
-You need to build the docker image first:
-
-    ./run-build.sh build-image
-
-Then start the openwrt build code process (minimal config):
-
-    ./run-build.sh start-min
-
-This will take a long time depending on your host compiling the code!
-
-Once finished, the image will be available in top level of the openwrt folder in - bin/targets/ramips/mt7621/
