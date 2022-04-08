@@ -28,6 +28,35 @@ echo "Start build and log to build.log"
 make -j$(($(nproc)+1)) V=s CONFIG_DEBUG_SECTION_MISMATCH=y 2>&1 | tee build.log
 }
 
+build-custom () {
+echo "Update feeds..."
+./scripts/feeds update -a
+
+echo "Install all packages from feeds..."
+./scripts/feeds install -a && ./scripts/feeds install -a
+
+if [ -f "Custom.config" ]; then
+   echo "Copying Custom Openwrt config..."
+   cp Custom.config .config
+else
+   echo "Custom.config does no exit! - Please copy you custom config first!"
+   exit 1
+fi
+
+echo "Set to use default config"
+make defconfig
+
+echo "Download packages before build"
+if [ "$opt" = "nodownload" ]; then
+   echo "Skipping download of packages.."
+else
+   make download
+fi
+
+echo "Start build and log to build.log"
+make -j$(($(nproc)+1)) V=s CONFIG_DEBUG_SECTION_MISMATCH=y 2>&1 | tee build.log
+}
+
 build-rebuild () {
 make clean
 make defconfig
@@ -52,6 +81,9 @@ case "$1" in
   build-official)
     build-official
     ;;
+  build-custom)
+    build-custom
+    ;;
   build-rebuild)
     build-rebuild
     ;;
@@ -65,8 +97,9 @@ case "$1" in
     clean-full
     ;;
   *)
-    echo "Usage: $0 {build-official|build-rebuild|build-rebuild-ignore|clean-min|clean-full}" >&2
+    echo "Usage: $0 {build-official|build-custom|build-rebuild|build-rebuild-ignore|clean-min|clean-full}" >&2
     echo "build-official: {Openwrt standard config}" >&2
+    echo "build-custom: {Custom config}" >&2
     echo "Optional: {nodownload = No downloads of packages}" >&2
     exit 1
     ;;

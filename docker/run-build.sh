@@ -27,6 +27,13 @@ case "$1" in
     echo "To stop build completely - '$0 stop'"
     docker logs -f $DCKRNAME
     ;;
+  build-custom)
+    docker run $ARGS $DCKRIMAGE build-custom $opt
+    echo "Build started - now watching $DCKRNAME"
+    echo "Press CTRL+C to stop watching!"
+    echo "To stop build completely - '$0 stop'"
+    docker logs -f $DCKRNAME
+    ;;
   rebuild)
     docker run $ARGS $DCKRIMAGE build-rebuild
     ;;
@@ -50,9 +57,10 @@ case "$1" in
     --cap-add NET_ADMIN -v $PWD/openwrt:/home/buser/openwrt $DCKRIMAGE
     ;;
   *)
-    echo "Usage: $0 {build-image|build-official|rebuild|clean-min|clean-full|stop}" >&2
+    echo "Usage: $0 {build-image|build-official|build-custom|rebuild|clean-min|clean-full|stop}" >&2
     echo "build-image: Build $DCKRIMAGE to build openwrt firmware images" >&2
     echo "build-official: Build Openwrt with official config using $DCKRIMAGE" >&2
+    echo "build-custom: Build Openwrt with custom config (Custom.config) using $DCKRIMAGE" >&2
     echo "rebuild: Restart build process" >&2
     echo "clean-min: Cleanup minimum build - keep config" >&2
     echo "clean-full: Cleanup full build - clean slate" >&2
