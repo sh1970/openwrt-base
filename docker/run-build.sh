@@ -27,6 +27,13 @@ case "$1" in
     echo "To stop build completely - '$0 stop'"
     docker logs -f $DCKRNAME
     ;;
+  build-custom)
+    docker run $ARGS $DCKRIMAGE build-custom $opt
+    echo "Build started - now watching $DCKRNAME"
+    echo "Press CTRL+C to stop watching!"
+    echo "To stop build completely - '$0 stop'"
+    docker logs -f $DCKRNAME
+    ;;
   rebuild)
     docker run $ARGS $DCKRIMAGE build-rebuild
     ;;
