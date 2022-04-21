@@ -35,6 +35,25 @@ echo "Update feeds..."
 echo "Install all packages from feeds..."
 ./scripts/feeds install -a && ./scripts/feeds install -a
 
+if [ "$opt" = "routerconf" ]; then
+   echo "Grabbing /etc/build.config from your router!"
+   echo "Enter your router hostname or ip address?:"
+   read routerip
+   echo Router hostname or ip address: $routerip
+   echo "Enter username?:"
+   read user
+   echo Username: $user
+   echo "Attempting to grab /etc/build.config from $routerip"
+   scp $user@$routerip:/etc/build.config Custom.config
+   
+   if [ $? -eq 0 ]; then
+     echo "SCP of /etc/build.config to Custom.config was successful!"
+   else
+     echo "Something went wrong? check username or hostname?"
+     echo "Check your build config has the /etc/build.config stored in router?"
+   fi
+fi
+
 if [ -f "Custom.config" ]; then
    echo "Copying Custom Openwrt config..."
    cp Custom.config .config
@@ -101,6 +120,7 @@ case "$1" in
     echo "build-official: {Openwrt standard config}" >&2
     echo "build-custom: {Custom config}" >&2
     echo "Optional: {nodownload = No downloads of packages}" >&2
+    echo "Optional: {routerconf = Get /etc/build.config from router}" >&2
     exit 1
     ;;
 esac
