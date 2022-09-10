@@ -9,7 +9,7 @@ ENV USERID=$USERUID \
 RUN apt-get update && \
     apt-get install -y time git-core subversion build-essential ccache ecj fastjar file screen quilt libncursesw5-dev libssl-dev \
     g++ java-propose-classpath libelf-dev bash make patch libncurses5 libncurses5-dev zlib1g-dev gawk \
-    flex gettext wget unzip xz-utils python python-distutils python3 rsync \
+    flex gettext wget unzip xz-utils python3-distutils rsync \
     python3-setuptools python3-dev swig xsltproc zlib1g-dev nano curl gcc-multilib && \
     apt-get clean && \
     groupadd --gid $GROUPID buser && \
