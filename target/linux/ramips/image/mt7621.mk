@@ -1831,7 +1831,7 @@ define Device/unielec_u7621-01-16m
   DEVICE_VENDOR := UniElec
   DEVICE_MODEL := U7621-01
   DEVICE_VARIANT := 16M
-  DEVICE_PACKAGES := kmod-mt7603 kmod-mt76x2 kmod-usb3
+  DEVICE_PACKAGES := kmod-mt7603e kmod-mt76x2e luci-app-mtwifi kmod-usb3
 endef
 TARGET_DEVICES += unielec_u7621-01-16m
 
@@ -2007,7 +2007,7 @@ define Device/xiaomi_mi-router-4a-gigabit
   DEVICE_VENDOR := Xiaomi
   DEVICE_MODEL := Mi Router 4A
   DEVICE_VARIANT := Gigabit Edition
-  DEVICE_PACKAGES := kmod-mt7603 kmod-mt76x2
+  DEVICE_PACKAGES := kmod-mt7603e kmod-mt76x2e luci-app-mtwifi
 endef
 TARGET_DEVICES += xiaomi_mi-router-4a-gigabit
 
