@@ -157,7 +157,7 @@ end
 
 function index()
 
-	entry({"admin", "network", "wifi"}, template("admin_mtk/mtk_wifi_overview"), _("Wireless"), 25).acl_depends={ "unauthenticated" }
+	entry({"admin", "network", "wifi"}, template("admin_mtk/mtk_wifi_overview"), _("MTK-Wireless"), 25).acl_depends={ "unauthenticated" }
 	entry({"admin", "network", "wifi", "dev_cfg_view"}, template("admin_mtk/mtk_wifi_dev_cfg")).leaf = true
 	entry({"admin", "network", "wifi", "dev_cfg"}, call("dev_cfg")).leaf = true
 	entry({"admin", "network", "wifi", "dev_cfg_reset"}, call("dev_cfg_reset")).leaf = true
