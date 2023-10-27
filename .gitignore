@@ -34,3 +34,4 @@ git-src
 .ccache
 .vscode*
 .directory
+.idea
