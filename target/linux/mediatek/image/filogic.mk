@@ -223,14 +223,10 @@ define Device/cudy_wr3000-v1
 endef
 TARGET_DEVICES += cudy_wr3000-v1
 
-define Device/comfast,cf-e393ax
+define Device/comfast_cf-e393ax
   DEVICE_VENDOR := Comfast
   DEVICE_MODEL := CF-E393AX
   DEVICE_DTS := mt7981a-comfast-cf-e393ax
-  DEVICE_DTS_OVERLAY:= \
-	mt7981-rfb-spim-nand \
-	mt7981-rfb-mxl-2p5g-phy-eth1 \
-	mt7981-rfb-mxl-2p5g-phy-swp5
   DEVICE_DTS_DIR := $(DTS_DIR)/
   DEVICE_DTC_FLAGS := --pad 4096
   DEVICE_DTS_LOADADDR := 0x43f00000
@@ -247,18 +243,18 @@ define Device/comfast,cf-e393ax
   IMAGE/sysupgrade.itb := append-kernel | fit gzip $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb external-with-rootfs | pad-rootfs | append-metadata
   ARTIFACTS := spim-nand-preloader.bin spim-nand-bl31-uboot.fip
   ARTIFACT/spim-nand-preloader.bin	:= mt7981-bl2 spim-nand-ddr3
-  ARTIFACT/spim-nand-bl31-uboot.fip	:= mt7981-bl31-uboot cf-e393ax |\
+  ARTIFACT/spim-nand-bl31-uboot.fip	:= mt7981-bl31-uboot rfb-spim-nand |\
 				$(if $(CONFIG_TARGET_ROOTFS_INITRAMFS),\
 				   pad-to 12M | append-image-stage initramfs.itb | check-size 44m |\
 				) \
 				   pad-to 44M | mt7981-bl2 spim-nand-ddr3 |\
-				   pad-to 45M | mt7981-bl31-uboot cf-e393ax |\
+				   pad-to 45M | mt7981-bl31-uboot rfb-spim-nand |\
 				$(if $(CONFIG_TARGET_ROOTFS_SQUASHFS),\
 				   pad-to 64M | append-image squashfs-sysupgrade.itb | check-size |\
 				) \
 				  gzip
 endef
-TARGET_DEVICES += comfast,cf-e393ax
+TARGET_DEVICES += comfast_cf-e393ax
 
 define Device/glinet_gl-mt3000
   DEVICE_VENDOR := GL.iNet
