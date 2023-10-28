@@ -27,7 +27,7 @@ mediatek_setup_interfaces()
 		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3" "wan"
 		;;
     comfast,cf-e393ax)
-    	ucidef_set_interfaces_lan_wan "lan1" "wan"
+    	ucidef_set_interfaces_lan_wan "lan1" "eth1 wan"
     	;;
 	glinet,gl-mt3000)
 		ucidef_set_interfaces_lan_wan eth1 eth0
@@ -80,7 +80,8 @@ mediatek_setup_macs()
 	local label_mac=""
 
 	case $board in
-	asus,tuf-ax4200)
+	asus,tuf-ax4200|\
+	comfast,cf-e393ax)
 		CI_UBIPART="UBI_DEV"
 		addr=$(mtd_get_mac_binary_ubi "Factory" 0x4)
 		wan_mac="${addr}"
