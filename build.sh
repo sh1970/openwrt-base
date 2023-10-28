@@ -66,7 +66,7 @@ make -j$(($(nproc)+1)) V=s CONFIG_DEBUG_SECTION_MISMATCH=y 2>&1 | tee build.log 
 
 build-rebuild-ignore () {
 echo "Start build and log to build.log - Ignoring build errors..."
-make -i -j$(($(nproc)+1)) V=s CONFIG_DEBUG_SECTION_MISMATCH=y 2>&1 | tee build.log | grep -i -E "^make.*(error|[12345]...Entering dir)"
+IGNORE_ERRORS=1 make -i -j$(($(nproc)+1)) V=s CONFIG_DEBUG_SECTION_MISMATCH=y 2>&1 | tee build.log | grep -i -E "^make.*(error|[12345]...Entering dir)"
 }
 
 clean-min () {
@@ -88,7 +88,7 @@ case "$1" in
     build-rebuild
     ;;
   build-rebuild-ignore)
-    build-rebuild-ignore 
+    build-rebuild-ignore
     ;;
   clean-min)
     clean-min
