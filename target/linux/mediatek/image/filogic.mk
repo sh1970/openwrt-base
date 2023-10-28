@@ -245,15 +245,14 @@ define Device/comfast,cf-e393ax
   IMAGES := sysupgrade.itb
   IMAGE_SIZE := $$(shell expr 64 + $$(CONFIG_TARGET_ROOTFS_PARTSIZE))m
   IMAGE/sysupgrade.itb := append-kernel | fit gzip $$(KDIR)/image-$$(firstword $$(DEVICE_DTS)).dtb external-with-rootfs | pad-rootfs | append-metadata
-  ARTIFACTS := \
-	spim-nand-preloader.bin spim-nand-bl31-uboot.fip
+  ARTIFACTS := spim-nand-preloader.bin spim-nand-bl31-uboot.fip
   ARTIFACT/spim-nand-preloader.bin	:= mt7981-bl2 spim-nand-ddr3
-  ARTIFACT/spim-nand-bl31-uboot.fip	:= mt7981-bl31-uboot rfb-spim-nand |\
+  ARTIFACT/spim-nand-bl31-uboot.fip	:= mt7981-bl31-uboot cf-e393ax |\
 				$(if $(CONFIG_TARGET_ROOTFS_INITRAMFS),\
 				   pad-to 12M | append-image-stage initramfs.itb | check-size 44m |\
 				) \
 				   pad-to 44M | mt7981-bl2 spim-nand-ddr3 |\
-				   pad-to 45M | mt7981-bl31-uboot rfb-spim-nand |\
+				   pad-to 45M | mt7981-bl31-uboot cf-e393ax |\
 				$(if $(CONFIG_TARGET_ROOTFS_SQUASHFS),\
 				   pad-to 64M | append-image squashfs-sysupgrade.itb | check-size |\
 				) \
