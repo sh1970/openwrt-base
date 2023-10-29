@@ -1,0 +1,13 @@
+version: '3'
+services:
+  tftpserver:
+    container_name: ${CONTAINERNAME}
+    image: ${IMAGE}
+    build:
+      context: .
+      dockerfile: Dockerfile.dnsmasq
+    privileged: true
+    network_mode: host
+    volumes:
+      - ./dnsmasq.conf:/etc/dnsmasq.conf
+      - ./tftpboot:/tftpboot
