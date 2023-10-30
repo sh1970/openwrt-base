@@ -43,15 +43,6 @@ case "$board" in
 		[ "$PHYNBR" = "0" ] && echo "$addr" > /sys${DEVPATH}/macaddress
 		[ "$PHYNBR" = "1" ] && macaddr_setbit_la $(macaddr_add $addr 1) > /sys${DEVPATH}/macaddress
 		;;
-	comfast,cf-e393ax)
-		CI_UBIPART="UBI_DEV"
-		addr=$(mtd_get_mac_binary_ubi "Factory" 0x4)
-		# Originally, phy0 is phy1 mac with LA bit set. However, this would conflict
-		# addresses on multiple VIFs with the other radio. Set LA bit and increment
-		# mac-address instead.
-		[ "$PHYNBR" = "0" ] && echo "$addr" > /sys${DEVPATH}/macaddress
-		[ "$PHYNBR" = "1" ] && macaddr_add $addr 1 > /sys${DEVPATH}/macaddress
-		;;
 	glinet,gl-mt6000)
 		addr=$(mmc_get_mac_binary factory 0x04)
 		[ "$PHYNBR" = "0" ] && echo "$addr" > /sys${DEVPATH}/macaddress
