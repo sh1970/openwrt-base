@@ -554,7 +554,6 @@ TARGET_DEVICES += bolt_arion
 
 define Device/comfast_cf-ac101
   $(Device/dsa-migration)
-  $(Device/uimage-lzma-loader)
   IMAGE_SIZE := 32448k
   DEVICE_VENDOR := ComFast
   DEVICE_MODEL := CF-AC101
