@@ -23,10 +23,20 @@
 			label = "green:status";
 			gpios = <&gpio 3 GPIO_ACTIVE_LOW>;
 		};
+
+		led_wdt: wdt {
+			label = "wdt:status";
+			gpios = <&gpio 8 GPIO_ACTIVE_LOW>;
+		};
 	};
 
 	chosen {
-		bootargs = "console=ttyS0,115200";
+		bootargs = "console=ttyS0,115200 panic=0";
+	};
+
+	memory@0 {
+		device_type = "memory";
+		reg = <0x0 0x10000000>; // 256mb
 	};
 		
 	keys {
@@ -34,7 +44,7 @@
 
 		reset {
 			label = "reset";
-			gpios = <&gpio 18 GPIO_ACTIVE_LOW>;
+			gpios = <&gpio 18 GPIO_ACTIVE_HIGH>;
 			linux,code = <KEY_RESTART>;
 		};
 	};
@@ -42,11 +52,14 @@
 
 &spi0 {
 	status = "okay";
+
 	flash@0 {
 		compatible = "jedec,spi-nor";
 		reg = <0>;
-		spi-max-frequency = <50000000>;
-		m25p,fast-read;
+		spi-max-frequency = <10000000>; // oem 10mhz?
+
+		#address-cells = <1>;
+		#size-cells = <1>;
 
 		partitions {
 			compatible = "fixed-partitions";
@@ -86,44 +99,48 @@
 			partition@50000 {
 				compatible = "denx,uimage";
 				label = "firmware";
-				reg = <0x50000 0xfc0000>;
+				reg = <0x50000 0xf70000>;
+			};
+
+			partition@fc0000 {
+				label = "configs";
+				reg = <0xfc0000 0x40000>;
+			};
+
+			partition@1000000 {
+				label = "reserve";
+				reg = <0x1000000 0x1000000>;
 			};
 		};
 	};
 };
 
+&pcie {
+	status = "okay";
+};
+
 &switch0 {
 	ports {
-		port@0 {
+		port@1 {
 			status = "okay";
 			label = "lan1";
 		};
 
-		port@1 {
+		port@2 {
 			status = "okay";
 			label = "lan2";
 		};
 
-		port@2 {
+		port@3 {
 			status = "okay";
 			label = "lan3";
 		};
 
-		port@3 {
+		port@4 {
 			status = "okay";
 			label = "lan4";
 		};
-
-		port@4 {
-			status = "okay";
-			label = "lan5";
-		};
 	};
-};
-
-&ethernet {
-	pinctrl-names = "default";
-	pinctrl-0 = <&mdio_pins>;
 };
 
 &gmac0 {
@@ -134,21 +151,29 @@
 &gmac1 {
 	status = "okay";
 	label = "wan";
-	phy-handle = <&ethphy4>;
+	phy-handle = <&ethphy0>;
 
 	nvmem-cells = <&macaddr_factory_0004 1>;
 	nvmem-cell-names = "mac-address";
 };
 
 &mdio {
-	ethphy4: ethernet-phy@4 {
-		reg = <4>;
+	ethphy0: ethernet-phy@0 {
+		reg = <0>;
 	};
+};
+
+&xhci {
+	status = "okay";
+};
+
+&uartlite2 {
+	status = "okay";
 };
 
 &state_default {
 	gpio {
-		groups = "i2c", "uart2", "jtag", "wdt";
+		groups = "i2c", "wdt", "rgmii2", "uart3";
 		function = "gpio";
 	};
 };

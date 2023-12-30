@@ -558,10 +558,8 @@ define Device/comfast_cf-ac101
   DEVICE_VENDOR := ComFast
   DEVICE_MODEL := CF-AC101
   DEVICE_PACKAGES := kmod-usb2 kmod-usb3
-  IMAGES += factory.bin
   IMAGE/sysupgrade.bin := append-kernel | append-rootfs | pad-rootfs | \
 	check-size | append-metadata
-  IMAGE/factory.bin := append-kernel | append-rootfs | pad-rootfs | check-size
 endef
 TARGET_DEVICES += comfast_cf-ac101
 
