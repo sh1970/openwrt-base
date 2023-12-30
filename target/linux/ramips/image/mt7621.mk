@@ -325,6 +325,15 @@ define Device/bolt_arion
 endef
 TARGET_DEVICES += bolt_arion
 
+define Device/comfast_cf-ac101
+  $(Device/dsa-migration)
+  IMAGE_SIZE := 32448k
+  DEVICE_VENDOR := ComFast
+  DEVICE_MODEL := CF-AC101
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb3
+endef
+TARGET_DEVICES += comfast_cf-ac101
+
 define Device/cudy_wr1300
   $(Device/dsa-migration)
   IMAGE_SIZE := 15872k
